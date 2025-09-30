@@ -1,0 +1,14 @@
+.my-switch .form-check-input:checked {
+  background-color: #7c3aed; /* màu track khi bật */
+  border-color: #7c3aed;
+}
+
+.my-switch .form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem rgba(124, 58, 237, 0.25); /* focus ring */
+}
+
+.no-validate-icon.is-invalid,
+.no-validate-icon.is-valid {
+  background-image: none !important; /* ẩn icon ✔ / ! */
+  padding-right: 2.75rem; /* giữ chỗ cho nút eye nếu cần */
+}
