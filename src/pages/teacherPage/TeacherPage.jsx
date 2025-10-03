@@ -1,11 +1,13 @@
 import { Outlet } from "react-router-dom";
-import Header from "../components/ui/Header";
-import SidebarTeacher from '../pages/Teachers/SidebarTeacher';
-import { useState } from "react";
+import Header from "../../components/ui/Header";
+import SidebarTeacher from '../../components/teacher/sidebar/SidebarTeacher';
+import { useState, useEffect } from "react";
 
-const TeacherLayout = () => {
+const TeacherPage = () => {
   const [showSidebar, setShowSidebar] = useState(false);
-
+  useEffect(() => {
+    document.title = "Teacher";
+  }, []);
   return (
     <div className="d-flex" style={{ minHeight: "100vh" }}>
       {/* Sidebar */}
@@ -27,4 +29,4 @@ const TeacherLayout = () => {
   );
 }
 
-export default TeacherLayout;
+export default TeacherPage;

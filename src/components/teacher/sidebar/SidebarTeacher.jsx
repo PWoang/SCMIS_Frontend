@@ -28,7 +28,7 @@ const  SidebarTeacher = ({ onClose }) => {
           </div>
           <div className="d-flex flex-column">
             <h1 className="h5 m-0 fw-bold text-dark">EduBridge</h1>
-            <small className="text-secondary">Secondary Class Management</small>
+            <small className="text-secondary">Class Management</small>
           </div>
         </NavLink>
 
@@ -201,12 +201,12 @@ const  SidebarTeacher = ({ onClose }) => {
       <div className="border-top p-3">
         <div className="d-flex align-items-center gap-2 p-3 rounded-3 bg-light w-100">
           <div className="profile-badge d-flex align-items-center justify-content-center">
-            <span className="text-black fw-semibold small mr-">DR</span>
+            <span className="text-black fw-semibold small mr-">T</span>
           </div>
           <div className="flex-grow-1 ms-3">
-            <p className="m-0 fw-semibold text-dark small">Dr. Wilson</p>
+            <p className="m-0 fw-semibold text-dark small">User name</p>
             <p className="m-0 text-secondary" style={{ fontSize: 12 }}>
-              Chief Medical Officer
+              Teacher
             </p>
           </div>
           <a href="#" className="text-secondary text-decoration-none">

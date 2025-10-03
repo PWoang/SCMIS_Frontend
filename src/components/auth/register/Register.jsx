@@ -8,15 +8,24 @@ import {
   InputGroup,
   FloatingLabel,
 } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
-
-import { BsEye, BsEyeSlash, BsCheckCircleFill, BsXCircleFill } from "react-icons/bs";
-
+import {
+  Eye,
+  EyeSlash,
+  CheckCircleFill,
+  XCircleFill,
+} from "react-bootstrap-icons";
 import { FcGoogle } from "react-icons/fc";
 
-import "./login.css"
+import "./register.css";
 
- const Login = () => {
+export default function Register() {
+  const navigate = useNavigate();
+  const { data, setData } = useState();
+
   const {
     watch,
     register,
@@ -28,6 +37,7 @@ import "./login.css"
       submitCount,
       touchedFields,
       isSubmitted,
+      reset,
     },
   } = useForm({ mode: "onBlur", reValidateMode: "onChange" });
   //pattern for password
@@ -47,50 +57,85 @@ import "./login.css"
   //load API
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("/api/users/login", {
+      console.log(data)
+      const response = await fetch("http://localhost:8080/api/auth/register", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(data),
       });
 
+      // Lấy JSON từ backend dù success hay lỗi
       const result = await response.json();
-
+      console.log( result)
       if (!response.ok) {
-        throw new Error(result.message || "Đăng nhập thất bại");
+        // Ném lỗi với message backend trả về (ví dụ email đã dùng)
+        throw new Error(result.message || "Lỗi khi gửi dữ liệu");
       }
 
-      console.log("Đăng nhập thành công:", result);
-      console.log(
-        "data user: " +
-          result.user.firstName +
-          " " +
-          result.user.lastName +
-          " " +
-          result.user.email
-      );
-      window.alert(result.message + " " + result.token);
-      console.log(result);
+      console.log("Đăng ký thành công:", result);
 
-      if (result.token) {
-        localStorage.setItem("token", result.token);
-        // Chuyển hướng
-      }
-    } catch (error) {
-      console.error("Lỗi khi đăng nhập:", error.message);
-      alert(error.message);
+      // reset(); // reset form sau khi submit
+      navigate("/");
+    } catch (err) {
+      // Hiển thị lỗi backend hoặc lỗi khác
+      console.error(err);
     }
   };
-
   const [showPass, setShowPass] = useState(false);
-  const [keepLoggedIn, setKeepLoggedIn] = useState(true);
   return (
     <Container fluid className="min-vh-100 d-flex align-items-center">
       <Row className="w-100 justify-content-center">
         <Col xs={11} sm={10} md={7} lg={5} xl={4}>
-          <h2 className="text-center fw-bold mb-4"> Log In</h2>
+          <h2 className="text-center fw-bold mb-4">Sign Up</h2>
 
-          {/* Email */}
+          {/* firstName */}
           <Form noValidate onSubmit={handleSubmit(onSubmit)} className="mb-3 ">
+            <Form.Group controlId="firstName" className="mb-3">
+              <FloatingLabel
+                controlId="floatingfirstName"
+                label="firstName"
+                className="mb-2 text-muted"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="First Name"
+                  className="py-3 rounded-4 no-validate-icon"
+                  isInvalid={showEmailErr}
+                  {...register("firstName", {
+                    required: "Please enter your first name",
+                  })}
+                  aria-describedby="firstNameHelpBlock"
+                />
+              </FloatingLabel>
+              <Form.Control.Feedback type="invalid" className="d-block">
+                {errors.firstName?.message}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group controlId="lastName" className="mb-3">
+              <FloatingLabel
+                controlId="floatingLastName"
+                label="LastName"
+                className="mb-2 text-muted"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="Last Name"
+                  className="py-3 rounded-4 no-validate-icon"
+                  isInvalid={showEmailErr}
+                  {...register("lastName", {
+                    required: "Please enter your last name",
+                  })}
+                  aria-describedby="lastNameHelpBlock"
+                />
+              </FloatingLabel>
+              <Form.Control.Feedback type="invalid" className="d-block">
+                {errors.lastName?.message}
+              </Form.Control.Feedback>
+            </Form.Group>
+
             <Form.Group controlId="email" className="mb-3">
               <FloatingLabel
                 controlId="floatingEmail"
@@ -157,7 +202,7 @@ import "./login.css"
                   className="position-absolute top-50 end-0 translate-middle-y me-3 p-0 bg-transparent border-0"
                   style={{ zIndex: 10 }} // nằm trên label/input
                 >
-                  {showPass ? <BsEyeSlash/> : <BsEye />}
+                  {showPass ? <EyeSlash /> : <Eye />}
                 </button>
               </div>
               {/*Show password error pattern   */}
@@ -165,25 +210,25 @@ import "./login.css"
                 <ul className="list-unstyled small mt-2 mb-0 ms-2">
                   <li className={hasMin ? "text-success" : "text-danger"}>
                     {hasMin ? (
-                      <BsCheckCircleFill className="me-2" />
+                      <CheckCircleFill className="me-2" />
                     ) : (
-                      <BsXCircleFill className="me-2" />
+                      <XCircleFill className="me-2" />
                     )}
                     1. Đủ 8 ký tự trở lên
                   </li>
                   <li className={hasUpper ? "text-success" : "text-danger"}>
                     {hasUpper ? (
-                      <BsCheckCircleFill className="me-2" />
+                      <CheckCircleFill className="me-2" />
                     ) : (
-                      <BsXCircleFill className="me-2" />
+                      <XCircleFill className="me-2" />
                     )}
                     2. Có ít nhất 1 chữ hoa
                   </li>
                   <li className={hasNum ? "text-success" : "text-danger"}>
                     {hasNum ? (
-                      <BsCheckCircleFill className="me-2" />
+                      <CheckCircleFill className="me-2" />
                     ) : (
-                      <BsXCircleFill className="me-2" />
+                      <XCircleFill className="me-2" />
                     )}
                     3. Có ít nhất 1 số
                   </li>
@@ -191,7 +236,24 @@ import "./login.css"
               )}
             </Form.Group>
 
-            {/* Keep me logged in */}
+            {/* Role */}
+            <Form.Group controlId="role" className="mb-3" hidden >
+              <Form.Select
+                aria-label="Role"
+                defaultValue="teacher" // placeholder mặc định
+                className="py-3 rounded-4"
+                {...register("role")}
+              >
+                <option value="teacher" selected>Teacher</option>
+              </Form.Select>
+
+              {/* feedback để bên ngoài wrapper floating để tránh lệch layout */}
+              <Form.Control.Feedback type="invalid" className="d-block">
+                {errors.role?.message}
+              </Form.Control.Feedback>
+            </Form.Group>
+
+            {/* Keep me logged in
             <div className="w-100 d-flex justify-content-center  align-items-center  gap-3 mb-3">
               <Form.Check
                 type="switch"
@@ -201,7 +263,7 @@ import "./login.css"
                 className="fs-4 my-switch"
               />
               <span className="fs-6 fw-semibold">Keep me logged in</span>
-            </div>
+            </div> */}
 
             {/* Sign up / Log in (pill group) */}
             <Row className="mb-3 gx-3">
@@ -214,7 +276,7 @@ import "./login.css"
                   className="text-decoration-none fw-semibold p-0"
                   style={{ color: "#7c3aed" }}
                 >
-                  Sign up
+                  Log In
                 </Button>
               </Col>
               <Col xs={6} className="d-flex justify-content-center">
@@ -229,7 +291,7 @@ import "./login.css"
                     transition: "background .2s ease",
                   }}
                 >
-                  {isSubmitting ? "Logging in..." : "Submit"}
+                  {isSubmitting ? "Signing up..." : "Sign Up"}
                 </Button>
               </Col>
             </Row>
@@ -273,12 +335,3 @@ import "./login.css"
     </Container>
   );
 }
-
-
-// const Login = () => {
-//     return (
-//         <div>lmao</div>
-//     )
-// }
-
-export default Login;
