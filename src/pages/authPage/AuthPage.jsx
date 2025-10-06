@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-const AuthLayout = () => {
+const AuthPage = () => {
   return (
     <div className="auth-page">
       <h2>Auth Page</h2>
@@ -9,4 +9,4 @@ const AuthLayout = () => {
   );
 };
 
-export default AuthLayout;
+export default AuthPage;

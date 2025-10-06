@@ -5,7 +5,7 @@ import Header from './components/ui/Header'
 import './App.css'
 import AuthPage from './pages/authPage/AuthPage'
 import TeacherPage from './pages/teacherPage/TeacherPage'
-import MainPage from './layouts/MainPage'
+import MainPage from './pages/MainPage'
 
 import SidebarTeacher from './components/teacher/sidebar/SidebarTeacher'
 import Login from './components/auth/login/Login'

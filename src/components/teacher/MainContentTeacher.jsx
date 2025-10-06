@@ -37,26 +37,30 @@ const MainContentTeacher = () => {
     return(
 
             <section className="container-fluid">
-                <Row className="g-3">
+                
+                <h1>My classes</h1>
+                <Row className="g-2 p-3 h-100">
                     {items.map((c) => (
-                        <Col xs={12} md={6} lg={4} key={c.id}>
-                        <Card className="h-100 shadow-sm">
-                            <Card.Body>
-                                <div>
-                                    <span className="text-muted">setting</span>
-                                </div>
-                                <Card.Title className="mt-3 mb-1">{c.name}</Card.Title>
-                                <Card.Text className="text-muted">
-                                    {c.studentCount} Student : {c.parentCount} Parents
+                        <Col xs={12} md={6} lg={3} key={c.id} className="mb-3">
+                        <Card className="h-100 shadow-sm"
+                        style={{width: "60%"}}
+                        >
+                            <Card.Body className="d-flex flex-column">
+                                <Card.Title className="mb-3 ">{c.name}</Card.Title>
+                                <Card.Img style={{width: "5rem", height: "5rem"}}
+                                className="mx-auto mb-2"
+                                variant="top" src="/logo-classroom.png"/>
+                                <Card.Text className="text-muted mt-auto ms-4">
+                                     Students {c.studentCount}  Parents {c.parentCount}
                                 </Card.Text>
                             </Card.Body>
                         </Card>
                         </Col>
                     ))}
-                    <Col xs={12} md={6} lg={4}>
+                    <Col xs={12} md={6} lg={3} className="mb-3">
                         <NewClassCard onClick={openCreate}/>
                     </Col>
-                </Row>
+                </Row> 
                 
                 <CreateClassModal show={showCreate} onClose={closeCreate} onCreate={handleCreated}/>
                 

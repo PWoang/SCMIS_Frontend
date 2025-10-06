@@ -1,8 +1,10 @@
+import { createClassroom } from "../../../services/createClassApi";
 import { useEffect, useRef, useState } from "react";
 import { Button,  Form, Modal, Spinner  } from "react-bootstrap";
-
+import { authFetch } from "../../../services/authFetch";
 
 const CreateClassModal = ({show, onClose, onCreate}) => {
+
     const [name, setName] = useState("");
     const [grade, setGrade] = useState("");
     const [submitting, setSubmitting] = useState(false);
@@ -22,21 +24,41 @@ const CreateClassModal = ({show, onClose, onCreate}) => {
         e.preventDefault();
         if(!name.trim()) return;
         setSubmitting(true);
-        
-        const created = {
-            id: crypto.randomUUID(),
-            name: name.trim(),
-            grade: grade || "",
-            studentCount: 0,
-            parentCount: 0,
-            createAt: new Date().toISOString()
+
+        // gia su token luu o local
+        const token = localStorage.getItem("token")
+        console.log("Token trước khi gọi API:", token);
+
+        const payload = {
+            className: name.trim(),
+            startDate: "2025-10-10T08:00:00", // có thể thêm form input riêng nếu muốn
+            endDate: "2025-12-15T10:00:00",
         }
 
-        setTimeout(() => {
-            onCreate(created);
-            setSubmitting(false)
-        }, 500)
-    }
+        try {
+            const result = await createClassroom(payload, token);
+            console.log("✅ API response:", result);
+
+                // tạo object lớp mới cho frontend
+                const created = {
+                id: crypto.randomUUID(),
+                name: name.trim(),
+                grade: grade || "",
+                studentCount: 0,
+                parentCount: 0,
+                createAt: new Date().toISOString(),
+                };
+
+                // báo cho parent component biết (MainContentTeacher)
+                onCreate(created);
+                onClose();
+            } catch (err) {
+                console.error("❌ Create classroom error:", err.message);
+                alert("Failed to create classroom: " + err.message);
+            } finally {
+                setSubmitting(false);
+                      }
+            }
     
     return(
         <Modal show={show} onHide={onClose} centered backdrop="static" keyboard>
