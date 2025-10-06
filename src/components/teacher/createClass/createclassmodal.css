@@ -1,0 +1,28 @@
+.btn-purple {
+  background-color: #6f42c1 !important;
+  color: white !important;
+  transition: all 0.25s ease;
+  font-weight: 600;
+}
+
+.btn-purple:hover {
+  background-color: #5a32a3 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(111, 66, 193, 0.3);
+}
+
+/* Modal bo tròn + hiệu ứng fade nhẹ */
+.modal-content {
+  border-radius: 1.5rem !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.modal.fade .modal-dialog {
+  transform: scale(0.95);
+  transition: all 0.2s ease-out;
+}
+
+.modal.show .modal-dialog {
+  transform: scale(1);
+}
